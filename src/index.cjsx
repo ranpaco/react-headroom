@@ -27,6 +27,9 @@ module.exports = React.createClass
     onUnpin: PropTypes.func
     onUnfix: PropTypes.func
     wrapperStyle: PropTypes.object
+    headroom: PropTypes.string
+    headroomPinned: PropTypes.string
+    headroomUnpinned: PropTypes.string    
 
   getDefaultProps: ->
     parent: -> window
@@ -38,12 +41,15 @@ module.exports = React.createClass
     onUnpin: ->
     onUnfix: ->
     wrapperStyle: {}
+    headroom: 'headroom'
+    headroomPinned: 'headroom--pinned'
+    headroomUnpinned: 'headroom--unpinned'    
 
 
   getInitialState: ->
     state: 'unfixed'
     translateY: 0
-    className: 'headroom headroom--pinned'
+    className: @props.headroom+' '+@props.headroomPinned
 
   componentDidMount: ->
     @setState height: @refs.inner.offsetHeight
@@ -81,7 +87,7 @@ module.exports = React.createClass
 
     @setState {
       translateY: "-100%"
-      className: "headroom headroom--unpinned"
+      className: @props.headroom+' '+@props.headroomUnpinned
     }, =>
       setTimeout((=>
         @setState state: "unpinned"
@@ -92,7 +98,7 @@ module.exports = React.createClass
 
     @setState {
       translateY: 0
-      className: "headroom headroom--pinned"
+      className: @props.headroom+' '+@props.headroomPinned
       state: "pinned"
     }
 
